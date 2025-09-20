@@ -6,7 +6,8 @@ date: "2024-09-12"
 
 # Strings in R
 
-In this notebook we will explore strings and how to manipulate strings in R. Strings are the building blocks of text data.
+In this notebook we will explore strings and how to manipulate strings in R.
+Strings are the building blocks of text data.
 
 ## Useful string tools:
 
@@ -131,7 +132,9 @@ grep('nlp', mystrings3, ignore.case ="True")
 
 ```
 
-We can also use the *stringr* package to manipulate strings and *tidyverse* has a library of possibilities and a few of which we will demonstrate below.
+We can also use the [*stringr* package](https://stringr.tidyverse.org/) to
+manipulate strings and *tidyverse* has a library of possibilities and a few of
+which we will demonstrate below.
 
 We need to make sure the libraries are installed and loaded first
 
