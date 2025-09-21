@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.30">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Badge 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="nlp_badge_03_Files_v1.3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="nlp_badge_03_Files_v1.3_files/libs/quarto-html/quarto.js"></script>
+<script src="nlp_badge_03_Files_v1.3_files/libs/quarto-html/popper.min.js"></script>
+<script src="nlp_badge_03_Files_v1.3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="nlp_badge_03_Files_v1.3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="nlp_badge_03_Files_v1.3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="nlp_badge_03_Files_v1.3_files/libs/quarto-html/quarto-syntax-highlighting-3a01e2046221230fdceeea94b1ec5d67.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="nlp_badge_03_Files_v1.3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="nlp_badge_03_Files_v1.3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="nlp_badge_03_Files_v1.3_files/libs/bootstrap/bootstrap-34745567add538a638dde46bc8a747e1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Badge 3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="simple-ways-to-load-text-files-into-r" class="level1">
+<h1>Simple ways to load text files into R</h1>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li>Open and read a csv file containing text</li>
+<li>How to access a files contents once it is loaded.</li>
+<li>Looking at data in a dataframe and a tibble.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first some imports:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(readr)){</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install</span>(<span class="st">"readr"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: readr</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(dplyr)){</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: dplyr</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="a-note-about-navigating-around-folders-and-files" class="level2">
+<h2 class="anchored" data-anchor-id="a-note-about-navigating-around-folders-and-files">A note about navigating around folders and files:</h2>
+<p><strong>WHERE AM I? (a note about the current ‘working directory’, so the folder in which you ‘are’)</strong></p>
+<p>When we use files we need to point to them, e.g.. go into folder X, then inside of it into a folder Z. But computer needs to know ‘Where do we start from’, like a “you are here 📍” pin on the map.</p>
+<p>Not in this badge, but in your future work, you may want to use the following commands to get <code>getwd()</code> and set <code>setwd("SOME_DIRECTORY")</code> your current working directory. More about this later.</p>
+<blockquote class="blockquote">
+<p>I like the <code>{here}</code> package, so will use that instead of <code>set_wd()</code>.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/paul/Library/Mobile Documents/com~apple~CloudDocs/00-maths/short-NLP-1-HSC-notes</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"nlp_badge_03_Files_v1.3.Rmd"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/paul/Library/Mobile Documents/com~apple~CloudDocs/00-maths/short-NLP-1-HSC-notes</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dr_here</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /Users/paul/Library/Mobile Documents/com~apple~CloudDocs/00-maths/short-NLP-1-HSC-notes.
+- This directory contains a file "nlp_badge_03_Files_v1.3.Rmd"
+- Initial working directory: /Users/paul/Library/Mobile Documents/com~apple~CloudDocs/00-maths/short-NLP-1-HSC-notes
+- Current working directory: /Users/paul/Library/Mobile Documents/com~apple~CloudDocs/00-maths/short-NLP-1-HSC-notes</code></pre>
+</div>
+</div>
+</section>
+<section id="loading-files" class="level2">
+<h2 class="anchored" data-anchor-id="loading-files">Loading files:</h2>
+<p>Let’s start my loading a CSV file. We are going to use the read_csv function from the readr package. Use help(read_csv) to see further option.</p>
+<p>We are going to use the Corona tweet file we discussed in the slides. This loads our data into a dataframe. Each piece of data is in a row with our variables in columns.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the csv to a dataframe and view the data</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>Corona_DF <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/CORONA_TWEETS.csv"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># see the top of the dataframe</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ doc_id     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ text       &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves …
+$ ScreenName &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 449…
+$ Location   &lt;chr&gt; "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK",…
+$ TweetAt    &lt;chr&gt; "02/03/2020", "02/03/2020", "02/03/2020", "02/03/2020", "03…
+$ Sentiment  &lt;chr&gt; "Extremely Negative", "Positive", "Extremely Positive", "Ne…</code></pre>
+</div>
+</div>
+<p>There are a number of different functions that can be used to view your data and find information.</p>
+<ul>
+<li><p><code>head()</code> - shows the number of rows specified to run head(Corona_DF)</p></li>
+<li><p><code>glimpse()</code> - comes from dplyr and allows a quick look at your data</p></li>
+<li><p><code>dim()</code> - tells you the dimensions of your data</p></li>
+<li><p><code>names()</code> - can be used to list the column names</p></li>
+<li><p><code>str()</code> - can tell you about the column</p></li>
+<li><p><code>summary(Corona_DF)</code> - gives you a summary of the variables( length, class, mode, Mean, Max and Quartiles where appropriate)</p></li>
+</ul>
+</section>
+<section id="activity" class="level2">
+<h2 class="anchored" data-anchor-id="activity">Activity:</h2>
+<p>Use these functions to explore your data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use each of the functions mentioned above to explore your data e.g. names(Corona_DF). What do you see in it? What perspective on the data each of the functions give you?</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># we'll get you started with glimpse. below write code which uses other functions in the same way</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Corona_DF) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ doc_id     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ text       &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves …
+$ ScreenName &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 449…
+$ Location   &lt;chr&gt; "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK",…
+$ TweetAt    &lt;chr&gt; "02/03/2020", "02/03/2020", "02/03/2020", "02/03/2020", "03…
+$ Sentiment  &lt;chr&gt; "Extremely Negative", "Positive", "Extremely Positive", "Ne…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># show the first 5 rows</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Corona_DF, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  doc_id
+1      1
+2      2
+3      3
+4      4
+5      5
+                                                                                                                                                                                                                                                                                                                                           text
+1                                                                                                          TRENDING: New Yorkers encounter empty supermarket shelves (pictured, Wegmans in Brooklyn), sold-out online grocers (FoodKick, MaxDelivery) as #coronavirus-fearing shoppers stock up https://t.co/Gr76pcrLWh https://t.co/ivMKMsqdT1
+2                                                                                                                                             When I couldn't find hand sanitizer at Fred Meyer, I turned to #Amazon. But $114.97 for a 2 pack of Purell??!!Check out how  #coronavirus concerns are driving up prices. https://t.co/ygbipBflMY
+3                                                                                                                                                                                                                                                                     Find out how you can protect yourself and loved ones from #coronavirus. ?
+4 #Panic buying hits #NewYork City as anxious shoppers stock up on food&amp;amp;medical supplies after #healthcare worker in her 30s becomes #BigApple 1st confirmed #coronavirus patient OR a #Bloomberg staged event?\n\n\n\n\n\nhttps://t.co/IASiReGPC4\n\n\n\n\n\n#QAnon #QAnon2018 #QAnon2020 \n\n\n#Election2020 #CDC https://t.co/29isZOewxu
+5                                                                                  #toiletpaper #dunnypaper #coronavirus #coronavirusaustralia #CoronaVirusUpdate #Covid_19 #9News  #Corvid19 #7NewsMelb #dunnypapergate #Costco    One week everyone buying baby milk powder the next everyone buying up toilet paper. https://t.co/ScZryVvsIh
+  ScreenName Location    TweetAt          Sentiment
+1      44953       UK 02/03/2020 Extremely Negative
+2      44954       UK 02/03/2020           Positive
+3      44955       UK 02/03/2020 Extremely Positive
+4      44956       UK 02/03/2020           Negative
+5      44957       UK 03/03/2020            Neutral</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dims of df</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3798    6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># column names</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "doc_id"     "text"       "ScreenName" "Location"   "TweetAt"   
+[6] "Sentiment" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># structure of df</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   3798 obs. of  6 variables:
+ $ doc_id    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ text      : chr  "TRENDING: New Yorkers encounter empty supermarket shelves (pictured, Wegmans in Brooklyn), sold-out online groc"| __truncated__ "When I couldn't find hand sanitizer at Fred Meyer, I turned to #Amazon. But $114.97 for a 2 pack of Purell??!!C"| __truncated__ "Find out how you can protect yourself and loved ones from #coronavirus. ?" "#Panic buying hits #NewYork City as anxious shoppers stock up on food&amp;amp;medical supplies after #healthcare wo"| __truncated__ ...
+ $ ScreenName: int  44953 44954 44955 44956 44957 44958 44959 44960 44961 44962 ...
+ $ Location  : chr  "UK" "UK" "UK" "UK" ...
+ $ TweetAt   : chr  "02/03/2020" "02/03/2020" "02/03/2020" "02/03/2020" ...
+ $ Sentiment : chr  "Extremely Negative" "Positive" "Extremely Positive" "Negative" ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># summary</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     doc_id           text             ScreenName      Location        
+ Min.   :   1.0   Length:3798        Min.   :44953   Length:3798       
+ 1st Qu.: 950.2   Class :character   1st Qu.:45902   Class :character  
+ Median :1899.5   Mode  :character   Median :46852   Mode  :character  
+ Mean   :1899.5                      Mean   :46852                     
+ 3rd Qu.:2848.8                      3rd Qu.:47801                     
+ Max.   :3798.0                      Max.   :48750                     
+   TweetAt           Sentiment        
+ Length:3798        Length:3798       
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      </code></pre>
+</div>
+</div>
+<p>We can also use the <a href="https://cran.r-project.org/web/packages/summarytools/vignettes/introduction.html#data-frame-summaries-dfsummary"><code>{summarytools}</code> package</a> to obtain more detailed summary statistics.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>system might not have X11 capabilities; in case of errors when using dfSummary(), set st_options(use.x11 = FALSE)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dfSummary</span>(Corona_DF, <span class="at">valid.col =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data Frame Summary  
+Corona_DF  
+Dimensions: 3798 x 6  
+Duplicates: 0  
+
+----------------------------------------------------------------------------------------------------------
+No   Variable      Stats / Values                  Freqs (% of Valid)     Graph                  Missing  
+---- ------------- ------------------------------- ---------------------- ---------------------- ---------
+1    doc_id        Mean (sd) : 1899.5 (1096.5)     3798 distinct values   : : : : : : :          0        
+     [integer]     min &lt; med &lt; max:                (Integer sequence)     : : : : : : :          (0.0%)   
+                   1 &lt; 1899.5 &lt; 3798                                      : : : : : : : :                 
+                   IQR (CV) : 1898.5 (0.6)                                : : : : : : : :                 
+                                                                          : : : : : : : :                 
+
+2    text          1.  Chart: Americans Stock         1 ( 0.0%)                                  0        
+     [character]   2.  Distance Learning for E        1 ( 0.0%)                                  (0.0%)   
+                   3. !!!!!!! French President        1 ( 0.0%)                                           
+                   4. ?  Our retail store is cl       1 ( 0.0%)                                           
+                   5. ? | Supermarket queue in        1 ( 0.0%)                                           
+                   6. ? | Supermarket queue in        1 ( 0.0%)                                           
+                   7. ? 50% OFF SITEWIDE! ?           1 ( 0.0%)                                           
+                   D                                  1 ( 0.0%)                                           
+                   8. ? In response to the COVI       1 ( 0.0%)                                           
+                   9. ? my 6-year-old coughed f       1 ( 0.0%)                                           
+                   10. ? New Podcast! "The Marc    3788 (99.7%)           IIIIIIIIIIIIIIIIIII             
+                   [ 3788 others ]                                                                        
+
+3    ScreenName    Mean (sd) : 46851.5 (1096.5)    3798 distinct values     : : : : : : :        0        
+     [integer]     min &lt; med &lt; max:                (Integer sequence)       : : : : : : :        (0.0%)   
+                   44953 &lt; 46851.5 &lt; 48750                                  : : : : : : : .               
+                   IQR (CV) : 1898.5 (0)                                    : : : : : : : :               
+                                                                          . : : : : : : : :               
+
+4    Location      1. UK                           3560 (93.7%)           IIIIIIIIIIIIIIIIII     0        
+     [character]   2. USA                           238 ( 6.3%)           I                      (0.0%)   
+
+5    TweetAt       1. 13/03/2020                   1233 (32.5%)           IIIIII                 0        
+     [character]   2. 12/03/2020                    685 (18.0%)           III                    (0.0%)   
+                   3. 14/03/2020                    614 (16.2%)           III                             
+                   4. 15/03/2020                    519 (13.7%)           II                              
+                   5. 16/03/2020                    472 (12.4%)           II                              
+                   6. 11/03/2020                    165 ( 4.3%)                                           
+                   7. 10/03/2020                     54 ( 1.4%)                                           
+                   8. 09/03/2020                     16 ( 0.4%)                                           
+                   9. 08/03/2020                      9 ( 0.2%)                                           
+                   10. 04/03/2020                     8 ( 0.2%)                                           
+                   [ 5 others ]                      23 ( 0.6%)                                           
+
+6    Sentiment     1. Extremely Negative            592 (15.6%)           III                    0        
+     [character]   2. Extremely Positive            599 (15.8%)           III                    (0.0%)   
+                   3. Negative                     1041 (27.4%)           IIIII                           
+                   4. Neutral                       619 (16.3%)           III                             
+                   5. Positive                      947 (24.9%)           IIII                            
+----------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<p>The file, was loaded with 3798 rows and 6 columns, is now stored in the Corona_DF variable. This loads the data with default settings, and R tries to guess what type of data you have, but sometimes it doesn’t do well. So it’s a good idea to specify some things.</p>
+<p>In the next command we specify that strings should not be treated as factors and the separator is a ‘,’</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the same command we had above to read the data in but this time set stringsAsFactors to TRUE  </span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Does this make any difference in the data? (stringsAsFactors is FALSE by default, so if you do not specify it at all, it will assume stringsAsFactors=FALSE)</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>Corona_DF <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/CORONA_TWEETS.csv"</span>,  <span class="at">stringsAsFactors=</span><span class="cn">TRUE</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># now explore Corona_DF - what is different? There should be one major difference. Do not spend more than 2 minutes on this part.</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   3798 obs. of  6 variables:
+ $ doc_id    : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ text      : Factor w/ 3798 levels "\u0095 Chart: Americans Stock Up On Food as COVID-19 Concerns Rise | Statista | @scoopit https://t.co/WHCY9VOLUF",..: 3388 3609 1268 544 566 1143 3439 156 1524 755 ...
+ $ ScreenName: int  44953 44954 44955 44956 44957 44958 44959 44960 44961 44962 ...
+ $ Location  : Factor w/ 2 levels "UK","USA": 1 1 1 1 1 1 1 1 1 1 ...
+ $ TweetAt   : Factor w/ 15 levels "02/03/2020","03/03/2020",..: 1 1 1 1 2 2 2 2 3 3 ...
+ $ Sentiment : Factor w/ 5 levels "Extremely Negative",..: 1 5 2 3 4 4 5 4 1 2 ...</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Now, the <code>character</code> variables are read as <code>factor</code>’s.</p>
+</blockquote>
+<p>But most of the time we’ll keep strings as simple strings (not factors) so we’ll stick with he default (FALSE) value of <code>stringsAsFactors</code>.</p>
+<p>R will load many types of data such as JSON, excel files, xml, html, delimited text. We will work with CSV files in this course.</p>
+</section>
+<section id="renaming-columns" class="level2">
+<h2 class="anchored" data-anchor-id="renaming-columns">Renaming columns</h2>
+<p>Knowing how to change your column names can be useful. Here we use the names command to do this.</p>
+<p>To access a specific column, use the dollar sign ($) after the data frame variable followed by the name of the column. For example</p>
+<p><code>CoronaDF$TweetAT</code> means the column name <code>TweetAt</code> in the data frame <code>Corona_DF</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Corona_DF <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/CORONA_TWEETS.csv"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># you can rename one column:</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Corona_DF<span class="sc">$</span>TweetAt)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"TweetDate"</span>) <span class="co"># rename TweetDate to TweetAt</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ doc_id     &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ text       &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves …
+$ ScreenName &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 449…
+$ Location   &lt;chr&gt; "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK",…
+$ TweetAt    &lt;chr&gt; "02/03/2020", "02/03/2020", "02/03/2020", "02/03/2020", "03…
+$ Sentiment  &lt;chr&gt; "Extremely Negative", "Positive", "Extremely Positive", "Ne…</code></pre>
+</div>
+</div>
+<p>But it’s often convenient to rename them all at the beginning:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Corona_DF <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/CORONA_TWEETS.csv"</span>,  <span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># you can rename all columns in one go:</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Corona_DF) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"my_text_data"</span>, <span class="st">"name"</span>, <span class="st">"Location"</span>, <span class="st">"Date"</span>, <span class="st">"Sentiment"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Corona_DF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ id           &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+$ my_text_data &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelve…
+$ name         &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 4…
+$ Location     &lt;chr&gt; "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK…
+$ Date         &lt;chr&gt; "02/03/2020", "02/03/2020", "02/03/2020", "02/03/2020", "…
+$ Sentiment    &lt;chr&gt; "Extremely Negative", "Positive", "Extremely Positive", "…</code></pre>
+</div>
+</div>
+<p>You can also subset based on values using subset(). Maybe you only want to look at UK tweets</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Based on string value</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># note the 'warning' in the help file for 'subset': better to use '[]'?</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Corona_DF_UK &lt;- subset(Corona_DF, Location = "UK") </span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>Corona_DF_UK <span class="ot">&lt;-</span> Corona_DF[Corona_DF<span class="sc">$</span>Location <span class="sc">==</span> <span class="st">"UK"</span>, ]</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(Corona_DF_UK)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,560
+Columns: 6
+$ id           &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18…
+$ my_text_data &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelve…
+$ name         &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 4…
+$ Location     &lt;chr&gt; "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK…
+$ Date         &lt;chr&gt; "02/03/2020", "02/03/2020", "02/03/2020", "02/03/2020", "…
+$ Sentiment    &lt;chr&gt; "Extremely Negative", "Positive", "Extremely Positive", "…</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>I way prefer using <code>data.table</code> over <code>dataframes</code> and <code>tibbles</code></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'data.table'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:dplyr':
+
+    between, first, last</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setDT(Corona_DF) # to modify in place</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>corona <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(Corona_DF)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>corona_uk <span class="ot">&lt;-</span> corona[Location <span class="sc">==</span> <span class="st">"UK"</span>]</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(corona)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3798    6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(corona_uk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3560    6</code></pre>
+</div>
+</div>
+</section>
+<section id="using-and-saving-tibbles" class="level2">
+<h2 class="anchored" data-anchor-id="using-and-saving-tibbles">Using and saving tibbles:</h2>
+<p>If we want to convert our data frame to a tibble.</p>
+<p>Tibbles have nice printing method that show only the first 10 rows and all the columns that fit on the screen. This is useful when you work with large data sets.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>Corona_TB <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(Corona_DF) <span class="co">#Converting into the tibble dataframe</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>Corona_TB</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3,798 × 6
+      id my_text_data                              name Location Date  Sentiment
+   &lt;int&gt; &lt;chr&gt;                                    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;    
+ 1     1 "TRENDING: New Yorkers encounter empty … 44953 UK       02/0… Extremel…
+ 2     2 "When I couldn't find hand sanitizer at… 44954 UK       02/0… Positive 
+ 3     3 "Find out how you can protect yourself … 44955 UK       02/0… Extremel…
+ 4     4 "#Panic buying hits #NewYork City as an… 44956 UK       02/0… Negative 
+ 5     5 "#toiletpaper #dunnypaper #coronavirus … 44957 UK       03/0… Neutral  
+ 6     6 "Do you remember the last time you paid… 44958 UK       03/0… Neutral  
+ 7     7 "Voting in the age of #coronavirus = ha… 44959 UK       03/0… Positive 
+ 8     8 "@DrTedros \"We can\u0092t stop #COVID1… 44960 UK       03/0… Neutral  
+ 9     9 "HI TWITTER! I am a pharmacist. I sell … 44961 UK       04/0… Extremel…
+10    10 "Anyone been in a supermarket over the … 44962 UK       04/0… Extremel…
+# ℹ 3,788 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remember that depending on your screen size you might have to 'scroll to the right with ▶ arrow'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, you can save any data frame as a CSV file to use later on in a different program. Use the function write.csv(). Specify the data frame, file destination, and the separator.</p>
+<p>Row names are used by default, but I typically set it to false. This will write to the working directory you set in setwd() unless you specify a full path.<br>
+Use help(write.csv) to see options</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(Corona_DF, <span class="at">file=</span><span class="st">"my_corona_data_rownames.csv"</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(Corona_DF, <span class="at">file=</span><span class="st">"my_corona_data_no_rownames.csv"</span>, <span class="at">row.names=</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># View the CSV's you created above, in Rstudio, to see the difference between two files!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can also write one column using the $ operator to access the column</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(Corona_DF<span class="sc">$</span>text, <span class="at">file=</span><span class="st">"my_corona_data_textcolumn.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="activity-1" class="level2">
+<h2 class="anchored" data-anchor-id="activity-1">Activity:</h2>
+<p>Revisit all the examples given above to achieve this task:</p>
+<ul>
+<li>Load the file CORONA_TWEETS.csv,</li>
+<li>then rename its columns to more meaningful and unified names,</li>
+<li>then only keep tweets from UK</li>
+<li>then save it into a new file, but only keep the column with all the text in it.</li>
+<li>…optionally, if you’d like to have some fun, apply anything you learned in the last few badges to this dataset</li>
+</ul>
+<p><strong>This is important and NON-TRIVIAL part of this activity:</strong></p>
+<p>The core skill of a programmer is: combining a lot of small pieces of code (each working separately), in a bigger final piece of code (that works when put together).</p>
+<blockquote class="blockquote">
+<p>I’m going to use data.tables and janitor to help clean up column names, but let’s first just have a look at the data.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here. </span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>corona_tweets <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"CORONA_TWEETS.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 3798 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): text, Location, TweetAt, Sentiment
+dbl (2): doc_id, ScreenName
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corona_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ doc_id     &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ text       &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves …
+$ ScreenName &lt;dbl&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 449…
+$ Location   &lt;chr&gt; "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK", "UK",…
+$ TweetAt    &lt;chr&gt; "02/03/2020", "02/03/2020", "02/03/2020", "02/03/2020", "03…
+$ Sentiment  &lt;chr&gt; "Extremely Negative", "Positive", "Extremely Positive", "Ne…</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>OK… So I’m going to use ‘fread’ to read in as a data.table, and define the column types as I read the data in. Then, I can use janitor::clean_names and see where I stand.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Note, for the data column, I need to convert to date type using lubridate, after reading in as character.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>corona_tweets <span class="ot">&lt;-</span> <span class="fu">fread</span>(</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"CORONA_TWEETS.csv"</span>),</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">colClasses =</span> <span class="fu">list</span>(</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">integer =</span> <span class="fu">c</span>(<span class="st">"doc_id"</span>, <span class="st">"ScreenName"</span>),</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">character =</span> <span class="fu">c</span>(<span class="st">"text"</span>, <span class="st">"TweetAt"</span>),</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">factor =</span> <span class="fu">c</span>(<span class="st">"Location"</span>, <span class="st">"Sentiment"</span>)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>corona_tweets[, TweetAt <span class="sc">:</span><span class="er">=</span> lubridate<span class="sc">::</span><span class="fu">dmy</span>(TweetAt)]</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>corona_tweets <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(corona_tweets)</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corona_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ doc_id      &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+$ text        &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves…
+$ screen_name &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 44…
+$ location    &lt;fct&gt; UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, USA, UK, U…
+$ tweet_at    &lt;date&gt; 2020-03-02, 2020-03-02, 2020-03-02, 2020-03-02, 2020-03-0…
+$ sentiment   &lt;fct&gt; Extremely Negative, Positive, Extremely Positive, Negative…</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Let’s use better column names</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(corona_tweets,</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">old =</span> <span class="fu">c</span>(<span class="st">"doc_id"</span>, <span class="st">"screen_name"</span>, <span class="st">"tweet_at"</span>),</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">new =</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"name"</span>, <span class="st">"tweet_date"</span>))</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corona_tweets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,798
+Columns: 6
+$ id         &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+$ text       &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves …
+$ name       &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 449…
+$ location   &lt;fct&gt; UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, USA, UK, UK…
+$ tweet_date &lt;date&gt; 2020-03-02, 2020-03-02, 2020-03-02, 2020-03-02, 2020-03-03…
+$ sentiment  &lt;fct&gt; Extremely Negative, Positive, Extremely Positive, Negative,…</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Now, only keeping UK tweets</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>corona_tweets_uk <span class="ot">&lt;-</span> corona_tweets[location <span class="sc">==</span> <span class="st">"UK"</span>]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corona_tweets_uk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,560
+Columns: 6
+$ id         &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, …
+$ text       &lt;chr&gt; "TRENDING: New Yorkers encounter empty supermarket shelves …
+$ name       &lt;int&gt; 44953, 44954, 44955, 44956, 44957, 44958, 44959, 44960, 449…
+$ location   &lt;fct&gt; UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK, UK,…
+$ tweet_date &lt;date&gt; 2020-03-02, 2020-03-02, 2020-03-02, 2020-03-02, 2020-03-03…
+$ sentiment  &lt;fct&gt; Extremely Negative, Positive, Extremely Positive, Negative,…</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Finally, saving the dataset (only the ‘text’ column)</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>corona_tweets_uk_text <span class="ot">&lt;-</span> corona_tweets_uk[, .(text)]</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as an Rdata file</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(<span class="at">data =</span> corona_tweets_uk_text,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"corona_uk_text.Rdata"</span>))</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co"># as a csv file</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(corona_tweets_uk_text, </span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"corona_uk_text.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="./hints/hint_3_1a.Rmd">hint for task 01a - common things that can go wrong</a></p>
+<p><a href="./hints/hint_3_1b.Rmd">hint for task 01b - actual code answer</a></p>
+</section>
+</section>
+<section id="reflection" class="level1">
+<h1>Reflection:</h1>
+<p>Now is a good moment to write down your self reflection: think of 3 STARS (things that you learned in this badge), and 1 WISH: a thing you wish you understood better. You might also thing of what would you do to fulfil your wish. Write them down.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion:</h1>
+<p>Loading files and initial process of preparing them is something that you will become very good at while using unstructured data such as text. It’s important to stay consistent and follow the best practices of your organisation and colleagues in terms of how to name things, and how to structure your code. The best code is REPRODUCIBLE, which means that you trust it to run and work in the same way, irrespectively of what exact data is fed into it.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
